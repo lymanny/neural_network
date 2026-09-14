@@ -1,39 +1,37 @@
+# -----------------------------------
+# SIMPLE LINEAR REGRESSION
+# Predict Salary from Years of Experience
+# -----------------------------------
+
+# Data source:
+# Kaggle - Salary Dataset - Simple Linear Regression
+# https://www.kaggle.com/datasets/abhishek14398/salary-dataset-simple-linear-regression
+
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 
 # -----------------------------------
-# REFERENCES
-# -----------------------------------
-
-# Dataset:
-# Salary Dataset - Simple Linear Regression
-# Source: Kaggle
-# https://www.kaggle.com/datasets/abhishek14398/salary-dataset-simple-linear-regression
-
-# Linear Regression:
-# scikit-learn LinearRegression documentation
-
-
-# -----------------------------------
 # 1. LOAD DATA
 # -----------------------------------
 
+# Read CSV file
 data = pd.read_csv("Salary_dataset.csv")
 
-# Show first 5 rows
+# Show first 5 rows by default
 print(data.head())
 
 
 # -----------------------------------
-# 2. INPUT AND TARGET
+# 2. INPUT AND OUTPUT
 # -----------------------------------
 
-# X = input
+# X = training input / independent variable
 X = data[["YearsExperience"]]
 
-# y = correct answer / real salary
+# y = target / dependent variable
 y = data["Salary"]
 
 
@@ -41,6 +39,7 @@ y = data["Salary"]
 # 3. CREATE MODEL
 # -----------------------------------
 
+# Create Linear Regression model
 model = LinearRegression()
 
 
@@ -48,78 +47,107 @@ model = LinearRegression()
 # 4. TRAIN MODEL
 # -----------------------------------
 
-# Learn Weight and Bias from the data
+# Train the model to learn the best Weight (slope) and Bias (intercept) from data
 model.fit(X, y)
 
 
 # -----------------------------------
-# 5. SHOW WEIGHT AND BIAS
+# 5. WEIGHT AND BIAS
 # -----------------------------------
 
-print("\nWeight:", model.coef_[0])
-print("Bias:", model.intercept_)
+# Get the learned Weight (slope)
+# model.coef_ stores the learned weight(s)
+# [0] gets the first weight because we have only one input: YearsExperience
+weight = model.coef_[0]
 
-# Formula:
-# Prediction = (Input × Weight) + Bias
+# Get the learned Bias (intercept)
+# Bias is the predicted value when YearsExperience = 0
+bias = model.intercept_
+
+print("\nWeight =", weight)
+print("Bias =", bias)
 
 
 # -----------------------------------
-# 6. USER INPUT
+# FORMULA
 # -----------------------------------
 
+# Linear Regression formula:
+# Prediction = (Input * Weight) + Bias -> y = (x * w) + b
+# x = Years of Experience
+# w = Weight / slope
+# b = Bias / intercept
+# y = Predicted Salary
+
+
+# -----------------------------------
+# 6. MAKE A PREDICTION
+# -----------------------------------
+
+# Ask user to enter years of experience
 experience = float(
     input("\nEnter years of experience: ")
 )
 
 
-# -----------------------------------
-# 7. PREDICT SALARY
-# -----------------------------------
-
-new_data = pd.DataFrame({
-    "YearsExperience": [experience]
-})
-
-prediction = model.predict(new_data)[0]
-
-print(
-    "Predicted Salary:",
-    round(prediction, 2)
+# Put the new input into the same format as X
+new_data = pd.DataFrame(
+    {"YearsExperience": [experience]}
 )
 
 
+# Prediction formula: Salary = (Experience * Weight) + Bias -> y = (x * w) + b
+
+
+# Use the trained model to predict salary
+prediction = model.predict(new_data)
+
+
+print("\nYears of Experience =", experience)
+print("Predicted Salary =", prediction[0]) # [0] gets the first predicted value
+
+
 # -----------------------------------
-# 8. DRAW GRAPH
+# 7. SHOW GRAPH
 # -----------------------------------
 
-# Real salary data = dots
+# Show actual data points
 plt.scatter(
-    X["YearsExperience"],
+    X,
     y,
-    label="Real Salary"
+    label="Actual Data"
 )
 
-# Regression line = model prediction
+
+# Show regression line
+# X["YearsExperience"] = x-axis values
+# model.predict(X) = predicted Salary values (predicted y)
 plt.plot(
     X["YearsExperience"],
     model.predict(X),
     label="Regression Line"
 )
 
-# Your new prediction = one dot
+
+# Show user's input + prediction
+# as one extra point on the graph
 plt.scatter(
     experience,
-    prediction,
+    prediction[0],
     label="Your Prediction"
 )
 
+
+# Graph labels
 plt.xlabel("Years of Experience")
 plt.ylabel("Salary")
-plt.title("Linear Regression - Experience vs Salary")
+
+plt.title(
+    "Linear Regression: Experience vs Salary"
+)
 
 plt.legend()
 
-# Show graph
 plt.show()
 
 
@@ -127,23 +155,40 @@ plt.show()
 # SUMMARY
 # -----------------------------------
 
-# X = Years of Experience
-# y = Real Salary
-
-# LinearRegression()
-# → creates the model
-
+# Linear Regression:
+#
+# CSV Data
+#    ↓
+# X = YearsExperience
+# y = Salary
+#    ↓
 # model.fit(X, y)
-# → learns Weight + Bias
-
-# model.predict()
-# → predicts Salary
-
-# plt.scatter()
-# → shows real data as dots
-
-# plt.plot()
-# → shows the regression line
-
-# plt.show()
-# → opens the graph
+#    ↓
+# Learn Weight + Bias
+#    ↓
+#
+# User enters experience
+#    ↓
+# new_data
+#    ↓
+# model.predict(new_data)
+#    ↓
+# Predicted Salary
+#    ↓
+# Show prediction as one point on graph
+#
+#
+# Formula:
+#
+# y = (x * w) + b
+#
+# x = input
+# w = Weight / slope
+# b = Bias / intercept
+# y = predicted value
+#
+#
+# Easy summary:
+#
+# Linear Regression =
+# Input -> Learn Weight + Bias -> Predict a number
