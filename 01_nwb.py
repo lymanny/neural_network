@@ -1,131 +1,241 @@
 # -----------------------------------
-# SIMPLE NEURON EXAMPLE
+# SIMPLE NEURAL NETWORK
+# 3 Inputs -> 4 Hidden -> 4 Hidden -> 1 Output
 # -----------------------------------
-
-# Data: [study_hours, sleep_hours, real_exam_score]
-data = [
-    [2, 6, 30],
-    [4, 7, 50],
-    [5, 7, 60]
-]
 
 
 # -----------------------------------
-# INPUTS
+# 1. INPUT LAYER
 # -----------------------------------
 
-# Inputs = data given to the neuron
-x1 = float(input("Enter study hours: "))
-x2 = float(input("Enter sleep hours: "))
+x1 = 4      # Study hours
+x2 = 7      # Sleep hours
+x3 = 90     # Attendance
 
 
-# -----------------------------------
-# WEIGHTS
-# -----------------------------------
-
-# Weights = how strongly each input affects the prediction
-w1 = 10   # Study has a strong effect
-w2 = 0    # Sleep has no effect in this simple example
+# ===================================
+# 2. HIDDEN LAYER 1
+# 4 NEURONS
+# ===================================
 
 
 # -----------------------------------
-# BIAS
+# Neuron 1
 # -----------------------------------
 
-# Bias = extra adjustment
-bias = 10
+# Weights
+w1 = 1
+w2 = 1
+w3 = 0.1
 
+# Bias
+b1 = 1
 
-# -----------------------------------
-# NEURON CALCULATION
-# -----------------------------------
+# Calculation
+z1 = (x1 * w1) + (x2 * w2) + (x3 * w3) + b1
 
-# Formula:
-# z = (x1 × w1) + (x2 × w2) + bias
-
-z = (x1 * w1) + (x2 * w2) + bias
-
-
-# z is the neuron output / prediction
-print("Prediction:", z)
+# ReLU
+h1 = max(0, z1)
 
 
 # -----------------------------------
-# CHECK CORRECT ANSWER
+# Neuron 2
 # -----------------------------------
 
-found = False
+# Weights
+w4 = 2
+w5 = 1
+w6 = 0.1
 
-for row in data:
+# Bias
+b2 = 1
 
-    # Check if the user's inputs exist in the dataset
-    if x1 == row[0] and x2 == row[1]:
+# Calculation
+z2 = (x1 * w4) + (x2 * w5) + (x3 * w6) + b2
 
-        found = True
-
-        # Real correct answer from the dataset
-        correct = row[2]
-
-        # Error = difference between prediction and correct answer
-        error = abs(correct - z)
-
-        print("Correct answer:", correct)
-        print("Error:", error)
-
-        # Check prediction
-        if error == 0:
-            print("Prediction is correct ✅")
-        else:
-            print("Prediction is wrong ❌")
-
-
-# If input is not in the dataset,
-# there is no correct answer available to compare
-if not found:
-    print("No matching data found.")
-    print("Cannot check if the prediction is correct.")
+# ReLU
+h2 = max(0, z2)
 
 
 # -----------------------------------
-# SUMMARY
+# Neuron 3
 # -----------------------------------
 
-# Neuron = a small calculation unit that takes inputs
-#          and produces an output
+# Weights
+w7 = 1
+w8 = 2
+w9 = 0.1
 
-# x1, x2 = Inputs
-# w1, w2 = Weights
-# bias   = Extra adjustment
-# z      = Neuron output / prediction
+# Bias
+b3 = 1
 
-# Weight:
-# Controls how strongly each input affects the result
+# Calculation
+z3 = (x1 * w7) + (x2 * w8) + (x3 * w9) + b3
 
-# Bias:
-# Adds an extra adjustment to the result
+# ReLU
+h3 = max(0, z3)
 
-# Good weights + bias → better prediction
-# Bad weights + bias  → bigger error
 
-# In this example:
-# We manually choose w1, w2, and bias
+# -----------------------------------
+# Neuron 4
+# -----------------------------------
 
-# In real Deep Learning:
-# The neural network learns the best weights
-# and bias automatically during training
+# Weights
+w10 = 1
+w11 = 1
+w12 = 0.2
 
-# Learning process:
-#
-# Input
-#   ↓
-# Weights + Bias
-#   ↓
-# Prediction
-#   ↓
-# Compare with correct answer
-#   ↓
-# Error / Loss
-#   ↓
-# Training adjusts Weights + Bias
-#   ↓
-# Better Prediction
+# Bias
+b4 = 1
+
+# Calculation
+z4 = (x1 * w10) + (x2 * w11) + (x3 * w12) + b4
+
+# ReLU
+h4 = max(0, z4)
+
+
+print("Hidden Layer 1:")
+print("h1 =", h1)
+print("h2 =", h2)
+print("h3 =", h3)
+print("h4 =", h4)
+
+
+# ===================================
+# 3. HIDDEN LAYER 2
+# 4 NEURONS
+# ===================================
+
+
+# -----------------------------------
+# Neuron 1
+# -----------------------------------
+
+# Weights
+w13 = 0.5
+w14 = 0.5
+w15 = 0.5
+w16 = 0.5
+
+# Bias
+b5 = 1
+
+z5 = (
+    (h1 * w13)
+    + (h2 * w14)
+    + (h3 * w15)
+    + (h4 * w16)
+    + b5
+)
+
+h5 = max(0, z5)
+
+
+# -----------------------------------
+# Neuron 2
+# -----------------------------------
+
+# Weights
+w17 = 0.4
+w18 = 0.4
+w19 = 0.4
+w20 = 0.4
+
+# Bias
+b6 = 1
+
+z6 = (
+    (h1 * w17)
+    + (h2 * w18)
+    + (h3 * w19)
+    + (h4 * w20)
+    + b6
+)
+
+h6 = max(0, z6)
+
+
+# -----------------------------------
+# Neuron 3
+# -----------------------------------
+
+# Weights
+w21 = 0.3
+w22 = 0.3
+w23 = 0.3
+w24 = 0.3
+
+# Bias
+b7 = 1
+
+z7 = (
+    (h1 * w21)
+    + (h2 * w22)
+    + (h3 * w23)
+    + (h4 * w24)
+    + b7
+)
+
+h7 = max(0, z7)
+
+
+# -----------------------------------
+# Neuron 4
+# -----------------------------------
+
+# Weights
+w25 = 0.2
+w26 = 0.2
+w27 = 0.2
+w28 = 0.2
+
+# Bias
+b8 = 1
+
+z8 = (
+    (h1 * w25)
+    + (h2 * w26)
+    + (h3 * w27)
+    + (h4 * w28)
+    + b8
+)
+
+h8 = max(0, z8)
+
+
+print("\nHidden Layer 2:")
+print("h5 =", h5)
+print("h6 =", h6)
+print("h7 =", h7)
+print("h8 =", h8)
+
+
+# ===================================
+# 4. OUTPUT LAYER
+# 1 NEURON
+# ===================================
+
+# Weights
+w29 = 0.5
+w30 = 0.5
+w31 = 0.5
+w32 = 0.5
+
+# Bias
+b9 = 1
+
+output = (
+    (h5 * w29)
+    + (h6 * w30)
+    + (h7 * w31)
+    + (h8 * w32)
+    + b9
+)
+
+
+# -----------------------------------
+# FINAL OUTPUT
+# -----------------------------------
+
+print("\nPrediction =", output)
